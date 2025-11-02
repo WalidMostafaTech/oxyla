@@ -21,9 +21,9 @@ function App() {
       </div>
       {/* <Footer /> */}
       
-      <LoadingHome />
+      {/* <LoadingHome /> */}
 
-      <FixedSection />
+      {/* <FixedSection /> */}
     </main>
   );
 }
