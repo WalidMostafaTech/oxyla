@@ -2,6 +2,13 @@ import { useState } from "react";
 import HeroSection from "./sections/HeroSection";
 import LoadingHome from "../../components/Loading/LoadingHome";
 import { AnimatePresence, motion } from "framer-motion";
+import WhyChooseUS from "./sections/WhyChooseUS";
+import TopBookNow from "./sections/TopBookNow";
+import RelaxationJourney from "./sections/RelaxationJourney";
+import Features from "./sections/Features";
+import Testimonials from "./sections/Testimonials";
+import HomeBanner from "./sections/HomeBanner";
+import Partners from "./sections/Partners";
 
 const Home = () => {
   const [show, setShow] = useState(true);
@@ -9,10 +16,10 @@ const Home = () => {
   return (
     <article>
       {/* صفحة التحميل */}
-      <LoadingHome show={show} onFinish={() => setShow(false)} />
+      {/* <LoadingHome show={show} onFinish={() => setShow(false)} /> */}
 
       {/* المحتوى الرئيسي */}
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {!show && (
           <motion.div
             key="home-content"
@@ -24,21 +31,15 @@ const Home = () => {
             <HeroSection />
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
 
-      {!show && (
-        <>
-          {/* <HeroSection /> */}
-
-          {/* <Features />
-          <MainCategories />
-          <Services />
-          <HomeVideo />
-          <MissionVisionSolution />
-          <Process />
-          <Partners /> */}
-        </>
-      )}
+      <WhyChooseUS />
+      <TopBookNow />
+      <RelaxationJourney />
+      <Features />
+      <Testimonials />
+      <HomeBanner />
+      <Partners />
     </article>
   );
 };

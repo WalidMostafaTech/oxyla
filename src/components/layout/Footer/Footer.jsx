@@ -37,11 +37,14 @@ const Footer = () => {
 
   const FooterComponent = ({ title, links }) => (
     <div>
-      <h3 className="text-xl lg:text-2xl font-bold mb-4">{title}</h3>
-      <ul className="space-y-2">
+      <h3 className="text-xl lg:text-2xl font-bold mb-2">{title}</h3>
+      <ul className="space-y-1">
         {links.map((link, index) => (
           <li key={index}>
-            <Link to={link.url} className="hover:text-myBlue transition-colors">
+            <Link
+              to={link.url}
+              className="hover:text-myBlue transition-colors text-sm"
+            >
               {link.name}
             </Link>
           </li>
@@ -52,52 +55,54 @@ const Footer = () => {
 
   return (
     <footer className="bg-black text-white">
-      <div className="container sectionPadding grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
-        <div>
-          <div className="flex items-center space-x-3">
-            <a
-              href="#"
-              target="_blank"
-              className="text-3xl hover:text-myBlue duration-300"
-            >
-              <FaFacebook />
-            </a>
-            <a
-              href="#"
-              target="_blank"
-              className="text-4xl hover:text-myBlue duration-300"
-            >
-              <IoLogoLinkedin />
-            </a>
-            <a
-              href="#"
-              target="_blank"
-              className="text-3xl hover:text-myBlue duration-300"
-            >
-              <BsTwitterX />
-            </a>
-            <a
-              href="#"
-              target="_blank"
-              className="text-3xl hover:text-myBlue duration-300"
-            >
-              <FaInstagram />
-            </a>
+      <div className="container">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 py-10">
+          {footerLinks.map((section, index) => (
+            <FooterComponent
+              key={index}
+              title={section.title}
+              links={section.links}
+            />
+          ))}
+
+          <div>
+            <div className="flex items-center space-x-3">
+              <a
+                href="#"
+                target="_blank"
+                className="text-2xl hover:text-myBlue duration-300"
+              >
+                <FaFacebook />
+              </a>
+              <a
+                href="#"
+                target="_blank"
+                className="text-3xl hover:text-myBlue duration-300"
+              >
+                <IoLogoLinkedin />
+              </a>
+              <a
+                href="#"
+                target="_blank"
+                className="text-2xl hover:text-myBlue duration-300"
+              >
+                <BsTwitterX />
+              </a>
+              <a
+                href="#"
+                target="_blank"
+                className="text-2xl hover:text-myBlue duration-300"
+              >
+                <FaInstagram />
+              </a>
+            </div>
           </div>
         </div>
 
-        {footerLinks.map((section, index) => (
-          <FooterComponent
-            key={index}
-            title={section.title}
-            links={section.links}
-          />
-        ))}
-      </div>
-
-      <div className="p-4 border-t border-gray-300">
-        <div className="text-center">
-          <p>All rights reserved to @Techno Masr</p>
+        <div className="p-4 border-t border-gray-300">
+          <div className="text-center">
+            <p>All rights reserved to @Techno Masr</p>
+          </div>
         </div>
       </div>
     </footer>

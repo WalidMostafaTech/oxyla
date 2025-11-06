@@ -33,13 +33,13 @@ const Header = () => {
     <motion.header
       ref={headerRef}
       className="container fixed left-1/2 -translate-x-1/2 top-4 z-50"
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{
-        duration: 0.8,
-        ease: "easeOut",
-        delay: 5.2,
-      }}
+      // initial={{ y: -100, opacity: 0 }}
+      // animate={{ y: 0, opacity: 1 }}
+      // transition={{
+      //   duration: 0.8,
+      //   ease: "easeOut",
+      //   delay: 5.2,
+      // }}
     >
       <div className="flex flex-col py-2 px-4 xl:py-4 xl:px-10 bg-white/90 backdrop-blur shadow-md rounded-3xl">
         <div className="flex items-center justify-between gap-2 w-full">

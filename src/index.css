@@ -2,13 +2,9 @@
 @plugin "daisyui";
 
 @theme {
-  --color-myGreen: #0c6445;
-  --color-myBlue-1: #022149;
-  --color-myBlue-2: #01377d;
-  --color-myBlue-2: #01377d;
   --color-myBlue: #0b5ab4fc;
   --color-myPurple: #9e2bd6;
-  --color-myPurple: #7820a3;
+  --color-myGreen: #008395;
 }
 
 /* remove input number arrows */
@@ -62,7 +58,7 @@ input::-webkit-inner-spin-button {
 
 @layer {
   body {
-    @apply bg-gray-100 font-[cairo];
+    @apply bg-white font-[cairo];
   }
 
   .myContainer {
@@ -81,24 +77,36 @@ input::-webkit-inner-spin-button {
     @apply p-6 lg:p-10 bg-white shadow-md;
   }
 
+  .text-shadow {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+  }
+
   .mainBtn {
-    @apply px-6 py-2 rounded-md text-white text-xl font-bold uppercase bg-gradient-to-l from-myPurple to-myBlue 
-    shadow-md transition-all duration-500 flex items-center justify-center gap-2 text-center cursor-pointer;
+    @apply px-6 py-2 rounded-md text-white font-bold capitalize bg-gradient-to-r from-myGreen via-myBlue to-myPurple 
+    shadow-lg shadow-myPurple/0 transition-all duration-500 flex items-center justify-center gap-2 text-center cursor-pointer;
 
     & svg {
-      @apply text-2xl lg:text-3xl transition-all duration-500;
+      @apply text-2xl transition-all duration-500;
     }
 
     &:hover,
     &.active {
-      @apply scale-105;
+      @apply scale-105 shadow-myPurple/70;
 
       & svg {
-        @apply translate-x-2;
+        @apply translate-x-1;
+      }
+    }
+
+    &.light {
+      @apply bg-none bg-white text-myPurple;
+
+      &:hover,
+      &.active {
+        @apply scale-105 shadow-white/70;
       }
     }
   }
-
 
   .navLink {
     @apply 2xl:text-lg font-semibold text-myPurple duration-500 capitalize cursor-pointer relative;

@@ -1,102 +1,140 @@
-import { useQuery } from "@tanstack/react-query";
-import { getFeatures } from "../../../services/homeServices";
-import { Link } from "react-router-dom";
+import { HiMiniCalendarDateRange } from "react-icons/hi2";
+import {
+  IoIosArrowBack,
+  IoIosArrowDropright,
+  IoIosArrowForward,
+} from "react-icons/io";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import LoadingSection from "../../../components/Loading/LoadingSection";
-import EmptySection from "../../../components/sections/EmptySection";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import "swiper/css/pagination";
+
+import bookImg from "../../../assets/images/book-img.jpg";
+
+const items = [
+  {
+    id: 1,
+    image: bookImg,
+    title: "Lorem Ipsum is simply dummy text ",
+    paragraph:
+      "Lorem Ipsum is simply dummy text of the printing and typeset industry. Lorem Ipsum has been lorem",
+    date: "February 20, 2024",
+    link: "/",
+  },
+  {
+    id: 2,
+    image: bookImg,
+    title: "Lorem Ipsum is simply dummy text ",
+    paragraph:
+      "Lorem Ipsum is simply dummy text of the printing and typeset industry. Lorem Ipsum has been lorem",
+    date: "February 20, 2024",
+    link: "/",
+  },
+  {
+    id: 3,
+    image: bookImg,
+    title: "Lorem Ipsum is simply dummy text ",
+    paragraph:
+      "Lorem Ipsum is simply dummy text of the printing and typeset industry. Lorem Ipsum has been lorem",
+    date: "February 20, 2024",
+    link: "/",
+  },
+  {
+    id: 4,
+    image: bookImg,
+    title: "Lorem Ipsum is simply dummy text ",
+    paragraph:
+      "Lorem Ipsum is simply dummy text of the printing and typeset industry. Lorem Ipsum has been lorem",
+    date: "February 20, 2024",
+    link: "/",
+  },
+  {
+    id: 5,
+    image: bookImg,
+    title: "Lorem Ipsum is simply dummy text ",
+    paragraph:
+      "Lorem Ipsum is simply dummy text of the printing and typeset industry. Lorem Ipsum has been lorem",
+    date: "February 20, 2024",
+    link: "/",
+  },
+];
 
 const Features = () => {
-  const {
-    data: features,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["features"],
-    queryFn: getFeatures,
-  });
-
-  if (isLoading) return <LoadingSection />;
-  if (isError || !features) return null;
-
-  const items = features?.features || [];
-  const disableNavigation = items.length <= 3;
-
   return (
-    <section className="sectionPadding my-8 container relative">
-      <div className="grid grid-cols-1 xl:grid-cols-4 gap-10">
-        <div className="flex flex-col justify-center items-center xl:items-start gap-8">
-          <h2 className="text-myBlue-1 text-3xl lg:text-5xl font-bold">
-            Our Goals
-          </h2>
-          <Link to="/about-us" className="animationBtn w-fit hidden xl:block">
-            See More
-          </Link>
-        </div>
+    <section className="sectionPadding container">
+      {/* 🧠 Header with title + navigation buttons */}
+      <div className="flex items-center justify-between gap-4 mb-8">
+        <h3 className="text-3xl font-bold">Feature News</h3>
 
-        <div className="xl:col-span-3 relative">
-          {/* أزرار التنقل */}
-          <button
-            className={`swiper-button-prev-custom-features absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow 
-            hover:bg-myGreen hover:text-white transition ${
-              disableNavigation
-                ? "opacity-50 pointer-events-none"
-                : "cursor-pointer"
-            }`}
-          >
-            <FaChevronLeft />
+        {/* Navigation buttons */}
+        <div className="flex items-center gap-3">
+          <button className="swiper-button-prev-custom-features text-2xl border border-gray-300 hover:bg-gray-100 p-2 rounded-lg transition cursor-pointer">
+            <IoIosArrowBack />
           </button>
-          <button
-            className={`swiper-button-next-custom-features absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow 
-            hover:bg-myGreen hover:text-white transition ${
-              disableNavigation
-                ? "opacity-50 pointer-events-none"
-                : "cursor-pointer"
-            }`}
-          >
-            <FaChevronRight />
+          <button className="swiper-button-next-custom-features text-2xl border border-gray-300 hover:bg-gray-100 p-2 rounded-lg transition cursor-pointer">
+            <IoIosArrowForward />
           </button>
-
-          <Swiper
-            modules={[Navigation]}
-            spaceBetween={20}
-            slidesPerView={1}
-            navigation={{
-              nextEl: ".swiper-button-next-custom-features",
-              prevEl: ".swiper-button-prev-custom-features",
-            }}
-            breakpoints={{
-              768: { slidesPerView: 2.5 },
-              1024: { slidesPerView: 3.5 },
-            }}
-          >
-            {items.map((item) => (
-              <SwiperSlide key={item.id}>
-                <div className="flex flex-col items-center gap-4 text-center group">
-                  <span className="h-22 overflow-hidden">
-                    <img
-                      src={item.icon}
-                      alt={item.title}
-                      className="w-full h-full object-contain"
-                    />
-                  </span>
-                  <h3 className="text-2xl font-semibold line-clamp-1">
-                    {item.title}
-                  </h3>
-                  <p className="text-gray-500 line-clamp-2">{item.paragraph}</p>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
         </div>
-
-        <Link to="/about-us" className="animationBtn w-fit mx-auto xl:hidden">
-          See More
-        </Link>
       </div>
+
+      {/* 🧩 Swiper slider */}
+      <Swiper
+        modules={[Navigation, Pagination]}
+        navigation={{
+          nextEl: ".swiper-button-next-custom-features",
+          prevEl: ".swiper-button-prev-custom-features",
+        }}
+        pagination={{
+          clickable: true,
+          bulletClass: "swiper-pagination-bullet !bg-black !opacity-60",
+          bulletActiveClass: "!opacity-100",
+        }}
+        spaceBetween={20}
+        slidesPerView={1}
+        breakpoints={{
+          560: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 },
+          1280: { slidesPerView: 4 },
+        }}
+        className="relative"
+      >
+        {items.map((item) => (
+          <SwiperSlide key={item.id}>
+            <div className="rounded-2xl overflow-hidden shadow-lg bg-white">
+              <div className="w-full h-44">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              <div className="space-y-2 p-3">
+                <p className="text-sm text-gray-700 flex items-center gap-1">
+                  <HiMiniCalendarDateRange />
+                  {item.date}
+                </p>
+
+                <h4 className="text-lg font-bold">{item.title}</h4>
+
+                <p className="text-sm text-gray-700 line-clamp-3">
+                  {item.paragraph}
+                </p>
+
+                <a
+                  href={item.link}
+                  className="flex items-center gap-1 font-bold text-myGreen w-fit group"
+                >
+                  <IoIosArrowDropright className="text-2xl group-hover:rotate-90 transition-all" />
+                  See More
+                </a>
+              </div>
+            </div>
+          </SwiperSlide>
+        ))}
+        <div className="swiper-pagination-custom !bottom-[-10px] !relative mt-10"></div>
+      </Swiper>
     </section>
   );
 };
