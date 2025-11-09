@@ -66,7 +66,7 @@ input::-webkit-inner-spin-button {
   }
 
   .pagePadding {
-    @apply pb-8 xl:pb-14 pt-28 xl:pt-36;
+    @apply pb-8 xl:pb-14 pt-22 lg:pt-26;
   }
 
   .sectionPadding {
@@ -109,10 +109,10 @@ input::-webkit-inner-spin-button {
   }
 
   .navLink {
-    @apply 2xl:text-lg font-semibold text-myPurple duration-500 capitalize cursor-pointer relative;
+    @apply text-sm font-semibold text-myPurple duration-500 capitalize cursor-pointer relative;
 
     &::after {
-      @apply content-[''] absolute -bottom-1 start-1/2 -translate-x-1/2 h-1 w-0 bg-myPurple rounded-full duration-500;
+      @apply content-[''] absolute -bottom-1 start-1/2 -translate-x-1/2 h-0.5 w-0 bg-myPurple rounded-full duration-500;
     }
 
     &.active,
@@ -126,7 +126,7 @@ input::-webkit-inner-spin-button {
   }
 
   .navLinkMobile {
-    @apply font-semibold text-myPurple duration-500 capitalize relative;
+    @apply text-sm font-semibold text-myPurple duration-500 capitalize relative;
 
     &::after {
       @apply content-[''] absolute top-1/2 start-0 -translate-y-1/2 h-1.5 w-0 bg-myPurple rounded-e-full duration-500;
@@ -134,7 +134,7 @@ input::-webkit-inner-spin-button {
 
     &.active,
     &:hover {
-      @apply ps-5;
+      @apply ps-4;
 
       &::after {
         @apply w-3;

@@ -6,19 +6,19 @@ const HeaderAction = ({ setActiveNav }) => {
   return (
     <div className="flex items-center justify-center flex-wrap gap-2">
       <button
-        className="text-2xl lg:text-3xl text-myPurple cursor-pointer"
+        className="text-2xl text-myPurple cursor-pointer"
         onClick={() => setActiveNav(true)}
       >
         <CiGlobe />
       </button>
       <button
-        className="text-2xl lg:text-3xl text-myPurple cursor-pointer"
+        className="text-2xl text-myPurple cursor-pointer"
         onClick={() => setActiveNav(true)}
       >
         <FiUser />
       </button>
       <button
-        className="text-2xl lg:text-3xl text-myPurple cursor-pointer"
+        className="text-2xl text-myPurple cursor-pointer"
         onClick={() => setActiveNav(true)}
       >
         <IoCartOutline />

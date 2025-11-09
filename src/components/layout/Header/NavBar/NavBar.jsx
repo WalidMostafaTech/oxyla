@@ -4,7 +4,7 @@ const NavBar = ({ setActiveNav, links }) => {
 
 
   return (
-    <nav className="hidden xl:flex items-center justify-center gap-10">
+    <nav className="hidden lg:flex items-center justify-center gap-10">
       {links.map((link) => (
         <NavLink
           to={link.path}

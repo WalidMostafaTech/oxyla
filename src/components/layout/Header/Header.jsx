@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { HiMenu } from "react-icons/hi";
+import { BiMenuAltRight } from "react-icons/bi";
 import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -41,16 +41,16 @@ const Header = () => {
       //   delay: 5.2,
       // }}
     >
-      <div className="flex flex-col py-2 px-4 xl:py-4 xl:px-10 bg-white/90 backdrop-blur shadow-md rounded-3xl">
+      <div className="flex flex-col py-2 px-4 lg:px-10 bg-white/90 backdrop-blur shadow-md rounded-3xl">
         <div className="flex items-center justify-between gap-2 w-full">
           <div className="flex items-center gap-1">
             <span
-              className="text-3xl text-myPurple cursor-pointer xl:hidden"
+              className="text-3xl text-myPurple cursor-pointer lg:hidden"
               onClick={() => {
                 setActiveNav((prev) => !prev);
               }}
             >
-              {activeNav ? <IoClose /> : <HiMenu />}
+              {activeNav ? <IoClose /> : <BiMenuAltRight />}
             </span>
 
             <Link
@@ -62,7 +62,7 @@ const Header = () => {
                 loading="lazy"
                 src={logo}
                 alt="Logo"
-                className="w-14 xl:w-20"
+                className="w-14 lg:w-18"
               />
             </Link>
           </div>

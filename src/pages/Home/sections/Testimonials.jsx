@@ -1,13 +1,13 @@
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
-import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import userImg from "../../../assets/images/man.png";
 import sectionBg from "../../../assets/images/section-bg.jpg";
+import { renderStars } from "../../../utils/renderStars";
 
 const items = [
   {
@@ -56,21 +56,6 @@ const items = [
     rate: 5,
   },
 ];
-
-// 🧠 دالة لعرض النجوم حسب التقييم
-const renderStars = (rating) => {
-  const stars = [];
-  for (let i = 1; i <= 5; i++) {
-    if (rating >= i) {
-      stars.push(<FaStar key={i} className="text-yellow-400" />);
-    } else if (rating >= i - 0.5) {
-      stars.push(<FaStarHalfAlt key={i} className="text-yellow-400" />);
-    } else {
-      stars.push(<FaRegStar key={i} className="text-yellow-400" />);
-    }
-  }
-  return stars;
-};
 
 const Testimonials = () => {
   return (
@@ -137,9 +122,7 @@ const Testimonials = () => {
                   <div className="flex gap-1">{renderStars(item.rate)}</div>
                 </div>
 
-                <p className="text-sm line-clamp-3 mt-2">
-                  {item.paragraph}
-                </p>
+                <p className="text-sm line-clamp-3 mt-2">{item.paragraph}</p>
               </div>
             </SwiperSlide>
           ))}

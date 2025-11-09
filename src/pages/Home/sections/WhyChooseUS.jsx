@@ -5,18 +5,21 @@ import GradientTitle from "../../../components/common/GradientTitle";
 
 const items = [
   {
+    id: 1,
     icon: img3,
     title: "Rejuvenate Your Skin",
     paragraph:
       "Experience deep relaxation and skin revitalization with every oxygen session — feel the glow from within.",
   },
   {
+    id: 2,
     icon: img2,
     title: "Pure Natural Essence",
     paragraph:
       "We combine pure oxygen therapy with nature-inspired care to enhance your body’s natural healing power.",
   },
   {
+    id: 3,
     icon: img1,
     title: "Oxyla Drink",
     paragraph:
@@ -31,7 +34,7 @@ const WhyChooseUS = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {items.map((item) => (
-          <div className="flex flex-col items-center gap-1 group">
+          <div key={item.id} className="flex flex-col items-center gap-1 group">
             <span className="h-18 overflow-hidden mb-4">
               <img
                 src={item.icon}
