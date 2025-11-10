@@ -1,6 +1,7 @@
 import { CiGlobe } from "react-icons/ci";
 import { FiUser } from "react-icons/fi";
 import { IoCartOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 const HeaderAction = ({ setActiveNav }) => {
   return (
@@ -11,12 +12,13 @@ const HeaderAction = ({ setActiveNav }) => {
       >
         <CiGlobe />
       </button>
-      <button
+      <Link
+        to="/profile"
         className="text-2xl text-myPurple cursor-pointer"
         onClick={() => setActiveNav(true)}
       >
         <FiUser />
-      </button>
+      </Link>
       <button
         className="text-2xl text-myPurple cursor-pointer"
         onClick={() => setActiveNav(true)}

@@ -4,7 +4,6 @@ const FormBtn = ({
   loading,
   onClick = () => {},
   type = "submit",
-  variant = "primary",
   margin = true,
 }) => {
   const isDisabled = disabled || loading;
@@ -13,9 +12,9 @@ const FormBtn = ({
       type={type}
       onClick={onClick}
       disabled={isDisabled}
-      className={`animationBtn ${margin && "block mx-auto"} ${
-        variant === "light" ? "light" : ""
-      } ${isDisabled ? "!cursor-not-allowed contrast-50" : ""}`}
+      className={`mainBtn w-full ${margin && "block mx-auto"} ${
+        isDisabled ? "!cursor-not-allowed contrast-50" : ""
+      }`}
     >
       {loading ? (
         <>

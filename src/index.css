@@ -61,20 +61,12 @@ input::-webkit-inner-spin-button {
     @apply bg-white font-[cairo];
   }
 
-  .myContainer {
-    @apply container px-4 mx-auto;
-  }
-
   .pagePadding {
     @apply pb-8 xl:pb-14 pt-22 lg:pt-26;
   }
 
   .sectionPadding {
     @apply py-8 lg:py-14;
-  }
-
-  .whiteContainer {
-    @apply p-6 lg:p-10 bg-white shadow-md;
   }
 
   .text-shadow {
@@ -91,7 +83,7 @@ input::-webkit-inner-spin-button {
 
     &:hover,
     &.active {
-      @apply scale-105 shadow-myPurple/70;
+      @apply scale-103 shadow-myPurple/70;
 
       & svg {
         @apply translate-x-1;
@@ -139,6 +131,15 @@ input::-webkit-inner-spin-button {
       &::after {
         @apply w-3;
       }
+    }
+  }
+
+  .profileNavLink {
+    @apply flex items-center gap-2 py-2 px-4 transition-colors text-gray-600;
+
+    &.active,
+    &:hover {
+      @apply text-myPurple;
     }
   }
 }

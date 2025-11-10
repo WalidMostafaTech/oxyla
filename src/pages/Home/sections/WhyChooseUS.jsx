@@ -43,7 +43,7 @@ const WhyChooseUS = () => {
               />
             </span>
             <h3 className="text-xl font-bold">{item.title}</h3>
-            <p className="text-sm text-gray-500 text-center max-w-md">
+            <p className="text-sm text-gray-500 text-center max-w-sm">
               {item.paragraph}
             </p>
           </div>

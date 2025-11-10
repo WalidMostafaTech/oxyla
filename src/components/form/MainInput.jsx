@@ -19,18 +19,18 @@ const MainInput = ({
   const isPassword = type === "password";
   const inputType = isPassword ? (showPassword ? "text" : "password") : type;
 
-  const commonInputClasses = `w-full lg:text-lg bg-white outline-none border-none p-3 rounded-md ring-1 transition-all ${
-    isPassword && "pe-10"
+  const commonInputClasses = `w-full text-sm bg-white outline-none border-none p-2 rounded ring-1 transition-all ${
+    isPassword && "pe-8"
   } ${
     error
       ? "ring-red-600 ring-2"
-      : "ring-gray-400 focus-within:ring-myBlue-2 focus-within:ring-2"
+      : "ring-gray-400 focus-within:ring-myGreen focus-within:ring-2"
   } ${disabled ? "opacity-60 cursor-not-allowed bg-gray-100" : ""}`;
 
   const commonLabel = label && (
     <label
       htmlFor={id}
-      className="block w-fit font-semibold mb-2 text-sm lg:text-base capitalize"
+      className="block w-fit font-semibold mb-1 text-sm capitalize"
     >
       {label} :
     </label>
@@ -60,37 +60,6 @@ const MainInput = ({
     );
   }
 
-  // if (type === "select") {
-  //   return (
-  //     <div>
-  //       {commonLabel}
-  //       <div className="relative">
-  //         {icon && (
-  //           <span className="text-neutral-500 absolute top-1/2 -translate-y-1/2 start-2 pointer-events-none text-2xl">
-  //             {icon}
-  //           </span>
-  //         )}
-  //         <select
-  //           id={id}
-  //           name={id}
-  //           value={value}
-  //           onChange={onChange}
-  //           onBlur={onBlur}
-  //           disabled={disabled}
-  //           className={commonInputClasses}
-  //         >
-  //           {options.map((option, idx) => (
-  //             <option key={`${option.value}-${idx}`} value={option.value}>
-  //               {option.label}
-  //             </option>
-  //           ))}
-  //         </select>
-  //       </div>
-  //       {commonError}
-  //     </div>
-  //   );
-  // }
-
   if (type === "select") {
     return (
       <div>
@@ -103,7 +72,7 @@ const MainInput = ({
           onChange={onChange}
           onBlur={onBlur}
           disabled={disabled}
-          className={`select select-ghost select-lg ${commonInputClasses}`}
+          className={`select select-ghost select-md outline-0! cursor-pointer ${commonInputClasses}`}
           {...rest}
         >
           {placeholder && <option value="">{placeholder}</option>}
@@ -144,7 +113,7 @@ const MainInput = ({
         {isPassword && (
           <span
             onClick={() => !disabled && setShowPassword(!showPassword)}
-            className={`text-neutral-500 cursor-pointer absolute top-1/2 -translate-y-1/2 end-2 text-2xl ${
+            className={`text-neutral-500 cursor-pointer absolute top-1/2 -translate-y-1/2 end-2 text-xl ${
               disabled ? "opacity-40 cursor-not-allowed" : ""
             }`}
           >
