@@ -5,8 +5,8 @@ import FormError from "../../../components/form/FormError";
 
 const ResetPassword = () => {
   return (
-    <AuthCard title={"Forgot Password"}>
-      <form className="space-y-4">
+    <AuthCard title={"Forgot Password"} backBtn>
+      <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
         <MainInput id={"password"} label={"Password"} placeholder="Password" />
 
         <MainInput

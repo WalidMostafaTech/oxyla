@@ -24,7 +24,7 @@ const EditProfile = () => {
       <form>
         <div className="mb-8">
           <div className="grid grid-cols-4 p-2 not-last:border-b border-gray-300">
-            <label htmlFor="name" className="text-lg font-semibold">
+            <label htmlFor="name" className="lg:text-lg font-semibold">
               Name
             </label>
             <input
@@ -37,7 +37,7 @@ const EditProfile = () => {
           </div>
 
           <div className="grid grid-cols-4 p-2 not-last:border-b border-gray-300">
-            <label htmlFor="email" className="text-lg font-semibold">
+            <label htmlFor="email" className="lg:text-lg font-semibold">
               Email
             </label>
             <input
@@ -50,7 +50,7 @@ const EditProfile = () => {
           </div>
 
           <div className="grid grid-cols-4 p-2 not-last:border-b border-gray-300">
-            <label htmlFor="mobileNumber" className="text-lg font-semibold">
+            <label htmlFor="mobileNumber" className="lg:text-lg font-semibold">
               Mobile Number
             </label>
             <input
@@ -63,7 +63,7 @@ const EditProfile = () => {
           </div>
 
           <div className="grid grid-cols-4 p-2 not-last:border-b border-gray-300">
-            <label htmlFor="location" className="text-lg font-semibold">
+            <label htmlFor="location" className="lg:text-lg font-semibold">
               Location
             </label>
             <input

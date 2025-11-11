@@ -1,5 +1,4 @@
 import AuthCard from "../../../components/form/AuthCard";
-import MainInput from "../../../components/form/MainInput";
 import FormBtn from "../../../components/form/FormBtn";
 import FormError from "../../../components/form/FormError";
 import { useRef, useState } from "react";
@@ -59,9 +58,22 @@ const OTP = ({ goNext, parentData, setParentData }) => {
   };
 
   return (
-    <AuthCard title={"Forgot Password"}>
-      <form className="space-y-4">
-        <div className="flex justify-between max-w-sm mx-auto gap-2">
+    <AuthCard title={"Forgot Password"} backBtn>
+      <form
+        className="space-y-4"
+        onSubmit={(e) => {
+          e.preventDefault();
+          goNext();
+        }}
+      >
+        <h2 className="text-center text-xl font-semibold capitalize">
+          Check your email
+        </h2>
+        <p className="text-center text-sm text-gray-500">
+          We sent a reset link to {parentData.email} enter {length} digit code
+          that mentioned in the email
+        </p>
+        <div className="flex justify-center max-w-sm mx-auto gap-2">
           {otp.map((digit, index) => (
             <input
               key={index}
@@ -74,14 +86,21 @@ const OTP = ({ goNext, parentData, setParentData }) => {
               onKeyDown={(e) => handleKeyDown(e, index)}
               onPaste={handlePaste}
               onFocus={() => handleFocus(index)}
-              className="w-12 h-12 text-center text-lg font-medium border border-gray-300 rounded-lg 
-              focus:outline-none focus:ring-2 focus:ring-myBlue-2 focus:border-myBlue-2 transition-all"
+              className="w-10 h-10 text-center font-medium border border-gray-300 rounded-lg 
+              focus:outline-none focus:ring-2 focus:ring-myGreen focus:border-myBlue-2 transition-all"
             />
           ))}
         </div>
-
         <FormBtn title="Send OTP" />
-
+        <p className="text-sm text-gray-600 text-center">
+          Haven’t got the email yet?{" "}
+          <button
+            to="/signup"
+            className="text-blue-600 text-sm hover:underline inline-block"
+          >
+            Resend email
+          </button>
+        </p>
         <FormError errorMsg={error} />
       </form>
     </AuthCard>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import CheckEmail from "./sections/CheckEmail";
 import ResetPassword from "./sections/ResetPassword";
 import StepProgress from "../../components/form/StepProgress";
+import OTP from "./sections/OTP";
 
 const ForgotPassword = () => {
   const steps = [
@@ -31,10 +32,8 @@ const ForgotPassword = () => {
   };
 
   return (
-    <section className="container pagePadding">
-      <div className="w-full max-w-lg mx-auto">
-        <StepProgress steps={steps} currentIndex={currentIndex} />
-      </div>
+    <section className="container pagePadding space-y-4">
+      <StepProgress steps={steps} currentIndex={currentIndex} />
 
       {currentIndex === 0 && (
         <CheckEmail goNext={handleNext} setParentData={setParentData} />
