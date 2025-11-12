@@ -1,26 +1,82 @@
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useMutation } from "@tanstack/react-query";
+import * as yup from "yup";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+
 import AuthCard from "../../components/form/AuthCard";
 import MainInput from "../../components/form/MainInput";
 import FormBtn from "../../components/form/FormBtn";
 import FormError from "../../components/form/FormError";
 import googleIcon from "../../assets/icons/google-icon.png";
-import { Link } from "react-router-dom";
+import { loginUser } from "../../services/authServices";
+import SuccessModal from "../../components/modals/SuccessModal";
+import { getProfileAct } from "../../store/profile/profileSlice";
+import { useDispatch } from "react-redux";
 
 const Signin = () => {
+  const [successModal, setSuccessModal] = useState(false);
+
+  const dispatch = useDispatch();
+
+  // ✅ تعريف الـ validation schema
+  const signinSchema = yup.object().shape({
+    email: yup
+      .string()
+      .required("Email or phone is required")
+      .test("emailOrPhone", "Must be a valid email or phone", (value) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^[0-9]{8,15}$/;
+        return emailRegex.test(value) || phoneRegex.test(value);
+      }),
+    password: yup.string().required("Password is required"),
+  });
+
+  // ✅ إعداد الفورم
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(signinSchema),
+  });
+
+  // ✅ mutation من React Query
+  const { mutate, isPending, error } = useMutation({
+    mutationFn: (formData) => loginUser(formData),
+    onSuccess: () => {
+      reset();
+      setSuccessModal(true);
+      dispatch(getProfileAct());
+    },
+  });
+
+  // ✅ عند الإرسال
+  const onSubmit = (data) => {
+    mutate(data);
+  };
+
   return (
     <section className="container pagePadding">
       <AuthCard title={"sign in"}>
-        <form className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <MainInput
-            id={"email_phone"}
-            label={"Email / Phone"}
+            id="email"
+            label="Email / Phone"
             placeholder="Email / Phone"
+            register={register("email")}
+            error={errors.email?.message}
           />
 
           <MainInput
-            id={"password"}
-            label={"Password"}
+            id="password"
+            label="Password"
             type="password"
             placeholder="Password"
+            register={register("password")}
+            error={errors.password?.message}
           />
 
           <Link
@@ -30,11 +86,14 @@ const Signin = () => {
             Forgot Password?
           </Link>
 
-          <FormBtn title="Sign in" />
+          <FormBtn title={"Sign In"} loading={isPending} />
 
           <div className="divider">OR</div>
 
-          <button className="w-full border border-gray-300 rounded-lg flex items-center justify-center gap-4 py-2 cursor-pointer hover:bg-gray-100 transition">
+          <button
+            type="button"
+            className="w-full border border-gray-300 rounded-lg flex items-center justify-center gap-4 py-2 cursor-pointer hover:bg-gray-100 transition"
+          >
             <img src={googleIcon} alt="google icon" />
             <span>Sign in with Google</span>
           </button>
@@ -49,9 +108,17 @@ const Signin = () => {
             </Link>
           </p>
 
-          <FormError errorMsg="" />
+          <FormError errorMsg={error?.response?.data?.message} />
         </form>
       </AuthCard>
+
+      <SuccessModal
+        openModal={successModal}
+        onClose={() => setSuccessModal(false)}
+        msg="Signed in successfully"
+        onConfirm={() => setSuccessModal(false)}
+        btnText="OK"
+      />
     </section>
   );
 };

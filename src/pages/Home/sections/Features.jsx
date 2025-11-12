@@ -10,57 +10,24 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import bookImg from "../../../assets/images/book-img.jpg";
-
-const items = [
-  {
-    id: 1,
-    image: bookImg,
-    title: "Lorem Ipsum is simply dummy text ",
-    paragraph:
-      "Lorem Ipsum is simply dummy text of the printing and typeset industry. Lorem Ipsum has been lorem",
-    date: "February 20, 2024",
-    link: "/",
-  },
-  {
-    id: 2,
-    image: bookImg,
-    title: "Lorem Ipsum is simply dummy text ",
-    paragraph:
-      "Lorem Ipsum is simply dummy text of the printing and typeset industry. Lorem Ipsum has been lorem",
-    date: "February 20, 2024",
-    link: "/",
-  },
-  {
-    id: 3,
-    image: bookImg,
-    title: "Lorem Ipsum is simply dummy text ",
-    paragraph:
-      "Lorem Ipsum is simply dummy text of the printing and typeset industry. Lorem Ipsum has been lorem",
-    date: "February 20, 2024",
-    link: "/",
-  },
-  {
-    id: 4,
-    image: bookImg,
-    title: "Lorem Ipsum is simply dummy text ",
-    paragraph:
-      "Lorem Ipsum is simply dummy text of the printing and typeset industry. Lorem Ipsum has been lorem",
-    date: "February 20, 2024",
-    link: "/",
-  },
-  {
-    id: 5,
-    image: bookImg,
-    title: "Lorem Ipsum is simply dummy text ",
-    paragraph:
-      "Lorem Ipsum is simply dummy text of the printing and typeset industry. Lorem Ipsum has been lorem",
-    date: "February 20, 2024",
-    link: "/",
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { getNews } from "../../../services/homeServices";
+import LoadingSection from "../../../components/Loading/LoadingSection";
 
 const Features = () => {
+  const {
+    data: news,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["news"],
+    queryFn: getNews,
+  });
+
+  if (isLoading) return <LoadingSection />;
+
+  if (isError || !news) return null;
+
   return (
     <section className="sectionPadding container">
       {/* 🧠 Header with title + navigation buttons */}
@@ -99,12 +66,12 @@ const Features = () => {
         }}
         className="relative"
       >
-        {items.map((item) => (
+        {news.map((item) => (
           <SwiperSlide key={item.id}>
             <div className="rounded-2xl overflow-hidden shadow-lg bg-white">
               <div className="w-full h-44">
                 <img
-                  src={item.image}
+                  src={item.main_image_url}
                   alt={item.title}
                   className="w-full h-full object-cover"
                 />
@@ -113,13 +80,17 @@ const Features = () => {
               <div className="space-y-2 p-3">
                 <p className="text-sm text-gray-700 flex items-center gap-1">
                   <HiMiniCalendarDateRange />
-                  {item.date}
+                  {new Date(item.created_at).toLocaleDateString("en-US", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  })}
                 </p>
 
                 <h4 className="text-lg font-bold">{item.title}</h4>
 
                 <p className="text-sm text-gray-700 line-clamp-3">
-                  {item.paragraph}
+                  {item.short_description}
                 </p>
 
                 <a

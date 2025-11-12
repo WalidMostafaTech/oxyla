@@ -8,12 +8,9 @@ const MainInput = ({
   options = [],
   error,
   id,
-  value,
-  onChange,
-  onBlur,
+  register,
   placeholder,
   disabled = false,
-  ...rest
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
@@ -46,34 +43,46 @@ const MainInput = ({
         {commonLabel}
         <textarea
           id={id}
-          name={id}
-          value={value}
-          onChange={onChange}
-          onBlur={onBlur}
           placeholder={placeholder}
           disabled={disabled}
-          className={`${commonInputClasses} h-32 resize-none`}
-          {...rest}
+          className={`${commonInputClasses} min-h-26 max-h-52`}
+          {...register}
         />
         {commonError}
       </div>
     );
   }
 
+  // if (type === "select") {
+  //   return (
+  //     <div>
+  //       {commonLabel}
+  //       <select
+  //         id={id}
+  //         disabled={disabled}
+  //         {...register}
+  //         className={`cursor-pointer ${commonInputClasses}`}
+  //       >
+  //         {options.map((option, idx) => (
+  //           <option key={`${option.value}-${idx}`} value={option.value}>
+  //             {option.label}
+  //           </option>
+  //         ))}
+  //       </select>
+  //       {commonError}
+  //     </div>
+  //   );
+  // }
+
   if (type === "select") {
     return (
       <div>
         {commonLabel}
         <select
-          defaultValue="Pick a font"
           id={id}
-          name={id}
-          value={value}
-          onChange={onChange}
-          onBlur={onBlur}
           disabled={disabled}
+          {...register}
           className={`select select-ghost select-md outline-0! cursor-pointer ${commonInputClasses}`}
-          {...rest}
         >
           {placeholder && <option value="">{placeholder}</option>}
           {options.map((option, idx) => (
@@ -82,6 +91,22 @@ const MainInput = ({
             </option>
           ))}
         </select>
+        {commonError}
+      </div>
+    );
+  }
+
+  if (type === "file") {
+    return (
+      <div>
+        {commonLabel}
+        <input
+          id={id}
+          type="file"
+          disabled={disabled}
+          className={commonInputClasses}
+          {...register}
+        />
         {commonError}
       </div>
     );
@@ -99,15 +124,11 @@ const MainInput = ({
 
         <input
           id={id}
-          name={id}
           type={inputType}
-          value={value}
-          onChange={onChange}
-          onBlur={onBlur}
           placeholder={placeholder}
           disabled={disabled}
           className={commonInputClasses}
-          {...rest}
+          {...register}
         />
 
         {isPassword && (

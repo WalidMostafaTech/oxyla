@@ -1,6 +1,16 @@
 import { RiLogoutCircleLine } from "react-icons/ri";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../../services/authServices";
+import { getProfileAct } from "../../../store/profile/profileSlice";
 
 const Logout = () => {
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    dispatch(getProfileAct());
+  };
+
   return (
     <section>
       <h2 className="text-2xl font-bold text-myPurple mb-4">Logout</h2>
@@ -14,7 +24,9 @@ const Logout = () => {
           Are you sure you want to logout ?
         </h1>
 
-        <button className="mainBtn">Logout</button>
+        <button className="mainBtn" onClick={handleLogout}>
+          Logout
+        </button>
       </div>
     </section>
   );

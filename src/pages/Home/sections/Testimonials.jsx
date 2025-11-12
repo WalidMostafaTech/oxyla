@@ -5,59 +5,26 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import userImg from "../../../assets/images/man.png";
 import sectionBg from "../../../assets/images/section-bg.jpg";
 import { renderStars } from "../../../utils/renderStars";
-
-const items = [
-  {
-    id: 1,
-    image: userImg,
-    name: "John Doe",
-    job: "Designer",
-    paragraph:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.",
-    rate: 5,
-  },
-  {
-    id: 2,
-    image: userImg,
-    name: "Jane Smith",
-    job: "Developer",
-    paragraph:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.",
-    rate: 4.5,
-  },
-  {
-    id: 3,
-    image: userImg,
-    name: "Ahmed Ali",
-    job: "Manager",
-    paragraph:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.",
-    rate: 4,
-  },
-  {
-    id: 4,
-    image: userImg,
-    name: "Sara Mohamed",
-    job: "Artist",
-    paragraph:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.",
-    rate: 3.5,
-  },
-  {
-    id: 5,
-    image: userImg,
-    name: "John Doe",
-    job: "Designer",
-    paragraph:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.",
-    rate: 5,
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import LoadingSection from "../../../components/Loading/LoadingSection";
+import { getTestimonials } from "../../../services/homeServices";
 
 const Testimonials = () => {
+  const {
+    data: testimonials = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["testimonials"],
+    queryFn: getTestimonials,
+  });
+
+  if (isLoading) return <LoadingSection />;
+
+  if (isError || !testimonials) return null;
+
   return (
     <article
       className="bg-cover bg-center bg-no-repeat my-10 relative overflow-hidden"
@@ -101,12 +68,12 @@ const Testimonials = () => {
           }}
           className="relative"
         >
-          {items.map((item) => (
+          {testimonials?.map((item) => (
             <SwiperSlide key={item.id}>
               <div className="rounded-2xl shadow-lg bg-white p-4 relative pt-8 mt-12">
                 <div className="w-16 h-16 bg-white overflow-hidden rounded-full absolute -top-10 start-4">
                   <img
-                    src={item.image}
+                    src={item.image_url}
                     alt={item.name}
                     className="w-full h-full object-cover"
                   />
@@ -115,14 +82,17 @@ const Testimonials = () => {
                 <div className="flex justify-between gap-2 items-start">
                   <div>
                     <h4 className="font-bold">{item.name}</h4>
-                    <p className="text-xs text-gray-700">{item.job}</p>
+                    <p className="text-xs text-gray-700">{item.job_title}</p>
                   </div>
 
                   {/* ⭐ النجوم */}
-                  <div className="flex gap-1">{renderStars(item.rate)}</div>
+                  <div className="flex gap-1">{renderStars(item.rating)}</div>
                 </div>
 
-                <p className="text-sm line-clamp-3 mt-2">{item.paragraph}</p>
+                <div
+                  className="htmlContent mt-2"
+                  dangerouslySetInnerHTML={{ __html: item.content }}
+                />
               </div>
             </SwiperSlide>
           ))}

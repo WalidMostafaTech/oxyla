@@ -7,6 +7,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import { useQuery } from "@tanstack/react-query";
+import { getServices } from "../../../services/homeServices";
+import LoadingSection from "../../../components/Loading/LoadingSection";
 
 const booksList = [
   {
@@ -60,12 +63,25 @@ const booksList = [
 ];
 
 const TopBookNow = () => {
+  const {
+    data: services = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["services"],
+    queryFn: getServices,
+  });
+
+  if (isLoading) return <LoadingSection />;
+
+  if (isError || !services) return null;
+
   return (
     <section className="sectionPadding container">
       <GradientTitle title="Top Book Now" />
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-8">
-        {booksList.map((book) => (
+        {booksList?.map((book) => (
           <div key={book.id} className="flex flex-col group">
             <div className="aspect-square mb-2 rounded-2xl overflow-hidden relative">
               {/* Swiper for book images */}

@@ -25,6 +25,7 @@ const ForgotPassword = () => {
     email: "",
     otp: "",
     password: "",
+    reset_token: "",
   });
 
   const handleNext = () => {

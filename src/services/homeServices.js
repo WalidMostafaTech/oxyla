@@ -1,27 +1,17 @@
 import api from "./api";
 
-export const getSliders = async () => {
-  const { data } = await api.get("/banners");
+export const getRelaxationJourneys = async () => {
+  const { data } = await api.get("/relaxation-journeys");
   return data?.data || [];
 };
 
-export const getFeatures = async () => {
-  const { data } = await api.get("/features");
+export const getWhyChooseUsFeatures = async () => {
+  const { data } = await api.get("/why-choose-us-features");
   return data?.data || [];
 };
 
-export const getMainCategories = async () => {
-  const { data } = await api.get("/main-categories");
-  return data?.data || [];
-};
-
-export const getServices = async () => {
-  const { data } = await api.get("/services");
-  return data?.data || [];
-};
-
-export const getMissionAndVisionAndSolution = async () => {
-  const { data } = await api.get("/mission-vission-solution");
+export const getNews = async () => {
+  const { data } = await api.get("/news");
   return data?.data || [];
 };
 
@@ -30,13 +20,13 @@ export const getPartners = async () => {
   return data?.data || [];
 };
 
-export const getFooter = async () => {
-  const { data } = await api.get("/footer");
+export const getTestimonials = async () => {
+  const { data } = await api.get("/testimonials");
   return data?.data || [];
 };
 
-export const getSettings = async () => {
-  const { data } = await api.get("/all-settings");
+export const getServices = async () => {
+  const { data } = await api.get("/services");
   return data?.data || [];
 };
 
@@ -45,9 +35,25 @@ export const sendNewsletter = async (email) => {
   return data?.data || [];
 };
 
-export const getSearch = async (query) => {
-  const { data } = await api.get("/search", {
-    params: { query },
-  });
-  return data?.data || {};
+export const sendContactUs = async (formData) => {
+  const { data } = await api.post("/contact", formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  return data?.data || [];
 };
+
+export const getSettings = async () => {
+  const { data } = await api.get("/all-settings");
+  return data?.data || [];
+};
+
+// export const getSearch = async (query) => {
+//   const { data } = await api.get("/search", {
+//     params: { query },
+//   });
+//   return data?.data || {};
+// };

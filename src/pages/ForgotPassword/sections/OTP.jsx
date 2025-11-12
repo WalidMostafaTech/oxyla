@@ -1,7 +1,9 @@
+import { useMutation } from "@tanstack/react-query";
 import AuthCard from "../../../components/form/AuthCard";
 import FormBtn from "../../../components/form/FormBtn";
 import FormError from "../../../components/form/FormError";
 import { useRef, useState } from "react";
+import { verifyOtp } from "../../../services/forgotPasswordServices";
 
 const OTP = ({ goNext, parentData, setParentData }) => {
   const length = 6;
@@ -9,6 +11,29 @@ const OTP = ({ goNext, parentData, setParentData }) => {
   const [error, setError] = useState("");
   const inputsRef = useRef([]);
 
+  // ✅ Mutation to verify OTP
+  const {
+    mutate,
+    isPending,
+    isError,
+    error: apiError,
+  } = useMutation({
+    mutationFn: ({ code, email }) => verifyOtp({ code, email }),
+    onSuccess: (res, variables) => {
+      setParentData((prev) => ({
+        ...prev,
+        otp: variables.otp,
+        reset_token: res.data.reset_token,
+      }));
+      console.log("✅ OTP verified successfully:", res);
+      goNext();
+    },
+    onError: (err) => {
+      console.error("❌ Error verifying OTP:", err);
+    },
+  });
+
+  // ✅ handle input change
   const handleChange = (e, index) => {
     const value = e.target.value;
     if (/^\d*$/.test(value)) {
@@ -57,15 +82,22 @@ const OTP = ({ goNext, parentData, setParentData }) => {
     }
   };
 
+  // ✅ handle submit (verify OTP)
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const joinedOtp = otp.join("");
+
+    if (joinedOtp.length !== length) {
+      setError("Please enter all digits of the OTP.");
+      return;
+    }
+
+    mutate({ code: joinedOtp, email: parentData.email });
+  };
+
   return (
     <AuthCard title={"Forgot Password"} backBtn>
-      <form
-        className="space-y-4"
-        onSubmit={(e) => {
-          e.preventDefault();
-          goNext();
-        }}
-      >
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <h2 className="text-center text-xl font-semibold capitalize">
           Check your email
         </h2>
@@ -91,7 +123,21 @@ const OTP = ({ goNext, parentData, setParentData }) => {
             />
           ))}
         </div>
-        <FormBtn title="Send OTP" />
+
+        {/* ✅ عرض الخطأ من API أو من التحقق */}
+        <FormError
+          errorMsg={
+            error ||
+            (isError
+              ? apiError?.response?.data?.message ||
+                "Invalid OTP, please try again."
+              : "")
+          }
+        />
+
+        {/* ✅ زر التحقق */}
+        <FormBtn title={"Check"} loading={isPending} />
+
         <p className="text-sm text-gray-600 text-center">
           Haven’t got the email yet?{" "}
           <button
@@ -101,7 +147,6 @@ const OTP = ({ goNext, parentData, setParentData }) => {
             Resend email
           </button>
         </p>
-        <FormError errorMsg={error} />
       </form>
     </AuthCard>
   );

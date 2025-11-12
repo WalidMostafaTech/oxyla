@@ -48,15 +48,15 @@ const api = axios.create({
 // ✅ Interceptor للطلبات
 api.interceptors.request.use(
   (config) => {
-    const nonce = generateNonce();
-    const { signature } = computeSignature(config, nonce);
+    // const nonce = generateNonce();
+    // const { signature } = computeSignature(config, nonce);
 
-    // ✅ إضافة التوقيع
-    config.headers["X-Nonce"] = nonce;
-    config.headers["X-Signature"] = signature;
+    // // ✅ إضافة التوقيع
+    // config.headers["X-Nonce"] = nonce;
+    // config.headers["X-Signature"] = signature;
 
     // ✅ إضافة التوكن لو موجود
-    const token = Cookies.get("tokenAG");
+    const token = Cookies.get("tokenOx");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -66,54 +66,38 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// ✅ التحقق من توقيع الاستجابة
-const verifyResponseSignature = (response) => {
-  const responseNonce = response.headers["x-nonce"];
-  const responseSignature = response.headers["x-signature"];
+// // ✅ التحقق من توقيع الاستجابة
+// const verifyResponseSignature = (response) => {
+//   const responseNonce = response.headers["x-nonce"];
+//   const responseSignature = response.headers["x-signature"];
 
-  if (!responseNonce || !responseSignature) {
-    console.error("❌ الاستجابة غير موقعة أو ناقصة");
-    throw new Error("Response signature headers missing");
-  }
+//   if (!responseNonce || !responseSignature) {
+//     console.error("❌ الاستجابة غير موقعة أو ناقصة");
+//     throw new Error("Response signature headers missing");
+//   }
 
-  const { signature: expectedSignature } = computeSignature(
-    response.config,
-    responseNonce
-  );
+//   const { signature: expectedSignature } = computeSignature(
+//     response.config,
+//     responseNonce
+//   );
 
-  if (
-    CryptoJS.enc.Hex.parse(expectedSignature).toString() !==
-    CryptoJS.enc.Hex.parse(responseSignature).toString()
-  ) {
-    console.error("❌ التوقيع غير متطابق مع الخادم");
-    throw new Error("Response signature verification failed");
-  }
+//   if (
+//     CryptoJS.enc.Hex.parse(expectedSignature).toString() !==
+//     CryptoJS.enc.Hex.parse(responseSignature).toString()
+//   ) {
+//     console.error("❌ التوقيع غير متطابق مع الخادم");
+//     throw new Error("Response signature verification failed");
+//   }
 
-  return response;
-};
+//   return response;
+// };
 
-// ✅ Interceptor للاستجابة
-api.interceptors.response.use(
-  (response) => {
-    if (response && response.status !== 204) {
-      verifyResponseSignature(response);
-    }
-    return response;
-  }
-  // (error) => {
-  //   if (error.response && error.response.status === 401) {
-  //     Cookies.remove("tokenAG");
-  //     window.location.href = "/login";
-  //   }
-
-  //   if (error.response?.data?.error_msg) {
-  //     toast.error(error.response.data.error_msg);
-  //   } else {
-  //     toast.error(error.message || "حدث خطأ في الاتصال");
-  //   }
-
-  //   return Promise.reject(error);
-  // }
-);
+// // ✅ Interceptor للاستجابة
+// api.interceptors.response.use((response) => {
+//   if (response && response.status !== 204) {
+//     verifyResponseSignature(response);
+//   }
+//   return response;
+// });
 
 export default api;

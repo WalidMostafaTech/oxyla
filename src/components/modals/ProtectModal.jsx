@@ -23,7 +23,7 @@ const ProtectModal = ({
           className="w-18 mx-auto"
         />
         <h3 className="font-bold text-lg">{title}</h3>
-        <p>{message}</p>
+        <p className="text-sm">{message}</p>
         <div className="modal-action">
           <button onClick={onClose} className="mainBtn danger">
             Close

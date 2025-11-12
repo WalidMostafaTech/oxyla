@@ -2,11 +2,13 @@ import { useState, useEffect, useRef } from "react";
 import { BiMenuAltRight } from "react-icons/bi";
 import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import logo from "../../../assets/images/logo/logo.png";
 import NavBar from "./NavBar/NavBar";
 import HeaderAction from "./HeaderAction";
 import NavBarMobile from "./NavBar/NavBarMobile";
+import { useDispatch } from "react-redux";
+import { fetchSetting } from "../../../store/setting/setting";
+import { getProfileAct } from "../../../store/profile/profileSlice";
 
 const Header = () => {
   const [activeNav, setActiveNav] = useState(false);
@@ -22,24 +24,23 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchSetting());
+    dispatch(getProfileAct());
+  }, [dispatch]);
+
   const linksList = [
     { name: "home", path: "/" },
     { name: "about Us", path: "/about-us" },
-    { name: "Products", path: "/Products" },
+    { name: "Products", path: "/services" },
     { name: "contact", path: "/contact-us" },
   ];
 
   return (
-    <motion.header
+    <header
       ref={headerRef}
       className="container fixed left-1/2 -translate-x-1/2 top-4 z-50"
-      // initial={{ y: -100, opacity: 0 }}
-      // animate={{ y: 0, opacity: 1 }}
-      // transition={{
-      //   duration: 0.8,
-      //   ease: "easeOut",
-      //   delay: 5.2,
-      // }}
     >
       <div className="flex flex-col py-2 px-4 lg:px-10 bg-white/90 backdrop-blur shadow-md rounded-3xl">
         <div className="flex items-center justify-between gap-2 w-full">
@@ -79,7 +80,7 @@ const Header = () => {
           links={linksList}
         />
       </div>
-    </motion.header>
+    </header>
   );
 };
 
