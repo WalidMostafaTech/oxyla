@@ -2,18 +2,20 @@ import { useMutation } from "@tanstack/react-query";
 import AuthCard from "../../../components/form/AuthCard";
 import FormBtn from "../../../components/form/FormBtn";
 import FormError from "../../../components/form/FormError";
-import { useRef, useState } from "react";
-import { verifyOtp } from "../../../services/forgotPasswordServices";
+import { useEffect, useRef, useState } from "react";
+import { verifyOtp, reSendOtp } from "../../../services/forgotPasswordServices";
 
 const OTP = ({ goNext, parentData, setParentData }) => {
   const length = 6;
   const [otp, setOtp] = useState(Array(length).fill(""));
   const [error, setError] = useState("");
+  const [timer, setTimer] = useState(60); // ✅ عداد 60 ثانية
+  const [isResendDisabled, setIsResendDisabled] = useState(true);
   const inputsRef = useRef([]);
 
-  // ✅ Mutation to verify OTP
+  // ✅ Mutation للتحقق من OTP
   const {
-    mutate,
+    mutate: verifyOtpMutation,
     isPending,
     isError,
     error: apiError,
@@ -22,7 +24,7 @@ const OTP = ({ goNext, parentData, setParentData }) => {
     onSuccess: (res, variables) => {
       setParentData((prev) => ({
         ...prev,
-        otp: variables.otp,
+        otp: variables.code,
         reset_token: res.data.reset_token,
       }));
       console.log("✅ OTP verified successfully:", res);
@@ -32,6 +34,42 @@ const OTP = ({ goNext, parentData, setParentData }) => {
       console.error("❌ Error verifying OTP:", err);
     },
   });
+
+  // ✅ Mutation لإعادة إرسال OTP
+  const {
+    mutate: resendOtpMutation,
+    isPending: isResending,
+    isSuccess: resendSuccess,
+  } = useMutation({
+    mutationFn: (email) => reSendOtp(email),
+    onSuccess: () => {
+      console.log("✅ OTP resent successfully");
+      setTimer(60);
+      setIsResendDisabled(true);
+    },
+    onError: (err) => {
+      console.error("❌ Error resending OTP:", err);
+      setError("Failed to resend OTP. Please try again.");
+    },
+  });
+
+  // ✅ مؤقت العد التنازلي
+  useEffect(() => {
+    let interval;
+    if (isResendDisabled) {
+      interval = setInterval(() => {
+        setTimer((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            setIsResendDisabled(false);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isResendDisabled]);
 
   // ✅ handle input change
   const handleChange = (e, index) => {
@@ -92,7 +130,12 @@ const OTP = ({ goNext, parentData, setParentData }) => {
       return;
     }
 
-    mutate({ code: joinedOtp, email: parentData.email });
+    verifyOtpMutation({ code: joinedOtp, email: parentData.email });
+  };
+
+  // ✅ handle resend OTP
+  const handleResend = () => {
+    resendOtpMutation(parentData.email);
   };
 
   return (
@@ -102,9 +145,11 @@ const OTP = ({ goNext, parentData, setParentData }) => {
           Check your email
         </h2>
         <p className="text-center text-sm text-gray-500">
-          We sent a reset link to {parentData.email} enter {length} digit code
-          that mentioned in the email
+          We sent a reset code to {parentData.email}. Enter the {length}-digit
+          code mentioned in the email.
         </p>
+
+        {/* ✅ OTP Inputs */}
         <div className="flex justify-center max-w-sm mx-auto gap-2">
           {otp.map((digit, index) => (
             <input
@@ -124,7 +169,7 @@ const OTP = ({ goNext, parentData, setParentData }) => {
           ))}
         </div>
 
-        {/* ✅ عرض الخطأ من API أو من التحقق */}
+        {/* ✅ عرض الخطأ */}
         <FormError
           errorMsg={
             error ||
@@ -138,15 +183,32 @@ const OTP = ({ goNext, parentData, setParentData }) => {
         {/* ✅ زر التحقق */}
         <FormBtn title={"Check"} loading={isPending} />
 
+        {/* ✅ زر إعادة الإرسال */}
         <p className="text-sm text-gray-600 text-center">
           Haven’t got the email yet?{" "}
           <button
-            to="/signup"
-            className="text-blue-600 text-sm hover:underline inline-block"
+            type="button"
+            onClick={handleResend}
+            disabled={isResendDisabled || isResending}
+            className={`text-blue-600 text-sm hover:underline inline-block cursor-pointer ${
+              (isResendDisabled || isResending) &&
+              "opacity-50 cursor-not-allowed"
+            }`}
           >
-            Resend email
+            {isResending
+              ? "Resending..."
+              : isResendDisabled
+              ? `Resend in ${timer}s`
+              : "Resend email"}
           </button>
         </p>
+
+        {/* ✅ عند النجاح في إعادة الإرسال */}
+        {resendSuccess && (
+          <p className="text-center text-green-600 text-sm">
+            New OTP has been sent successfully!
+          </p>
+        )}
       </form>
     </AuthCard>
   );

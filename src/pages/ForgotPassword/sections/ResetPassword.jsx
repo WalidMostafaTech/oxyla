@@ -134,7 +134,7 @@ const ResetPassword = ({ parentData, setParentData }) => {
                 <div
                   className={`h-1.5 ${getGradient()} transition-all duration-300 rounded-full`}
                   style={{ width: `${strengthPercent}%` }}
-                ></div>
+                />
               </div>
 
               <p

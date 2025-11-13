@@ -1,26 +1,4 @@
-const list = [
-  {
-    id: 1,
-    label: "happy clients",
-    value: "22 k",
-  },
-  {
-    id: 2,
-    label: "happy clients",
-    value: "22 k",
-  },
-  {
-    id: 3,
-    label: "happy clients",
-    value: "22 k",
-  },
-  {
-    id: 4,
-    label: "happy clients",
-    value: "22 k",
-  },
-];
-const AboutMiddleSection = () => {
+const AboutMiddleSection = ({ data }) => {
   return (
     <section className="relative overflow-hidden">
       <div
@@ -29,13 +7,16 @@ const AboutMiddleSection = () => {
       />
 
       <div className="relative z-10 container py-30 lg:py-40">
-        <h2 className="text-white text-3xl lg:text-5xl font-semibold text-center w-full max-w-lg mx-auto mb-8">
+        {/* <h2 className="text-white text-3xl lg:text-5xl font-semibold text-center w-full max-w-lg mx-auto mb-8">
           We are a expert team Our stats also are{" "}
           <span className="text-myPurple">expert</span>
+        </h2> */}
+        <h2 className="text-white text-3xl lg:text-5xl font-semibold text-center w-full max-w-lg mx-auto mb-8">
+          {data?.title}
         </h2>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {list.map((item) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {data?.items.map((item) => (
             <div
               key={item.id}
               className="flex flex-col items-center group relative"
@@ -44,13 +25,13 @@ const AboutMiddleSection = () => {
                 className="text-white text-3xl lg:text-4xl font-semibold text-center content-center h-30 w-[80%] mx-auto bg-transparent p-2 rounded-t-lg
               group-hover:text-black group-hover:bg-myPurple duration-300"
               >
-                {item.value}
+                {item.counter}
               </span>
               <p
                 className="absolute -bottom-4 left-1/2 -translate-x-1/2 shadow-lg
               text-center text-black bg-myPurple group-hover:bg-white group-hover:-bottom-8 duration-300 w-full rounded-full font-semibold  p-2"
               >
-                {item.label}
+                {item.title}
               </p>
             </div>
           ))}

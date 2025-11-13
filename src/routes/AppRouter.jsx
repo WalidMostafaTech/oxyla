@@ -3,7 +3,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import LoadingPage from "../components/Loading/LoadingPage";
 
-const Home = React.lazy(() => import("../pages/Home/Home"));
+const Home = React.lazy(() => import("../pages/Home copy/Home"));
 const AboutUS = React.lazy(() => import("../pages/AboutUS/AboutUS"));
 const ContactUS = React.lazy(() => import("../pages/ContactUS/ContactUS"));
 const ServicesPage = React.lazy(() =>
